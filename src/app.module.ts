@@ -7,12 +7,13 @@ import { DatabaseConfigDev } from '../DatabaseConfigDev'
 import { DatabaseConfigProd } from '../DatabaseConfigProd'
 import { UserModule } from './user/user.module'
 import { TodoistModule } from './todoist/todoist.module'
+import { AppController } from './app.controller'
 
 const databaseConfig =
   process.env.NODE_ENV === 'production' ? DatabaseConfigProd : DatabaseConfigDev
 
-console.log('NODE_ENV', process.env.NODE_ENV)
-console.log(databaseConfig)
+// console.log('NODE_ENV', process.env.NODE_ENV)
+// console.log(databaseConfig)
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ console.log(databaseConfig)
       rootPath: path.join(__dirname, '..', 'src/public')
     }),
     UserModule,
-    TodoistModule
+    TodoistModule,
+    AppController
   ]
 })
 export class AppModule {}
