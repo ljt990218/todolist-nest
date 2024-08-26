@@ -21,6 +21,13 @@ export class TodoistService {
     return await this.todoRepository.find()
   }
 
+  async findAllByUserId(user_id: number): Promise<[Todoist[], number]> {
+    const [todos, count] = await this.todoRepository.findAndCount({
+      where: { userId: user_id }
+    })
+    return [todos, count]
+  }
+
   async findOne(id: number) {
     let todo = await this.todoRepository.findOne({
       where: { id }

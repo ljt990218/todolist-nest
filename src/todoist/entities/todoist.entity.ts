@@ -14,6 +14,9 @@ export class Todoist {
   id: number
 
   @Column()
+  userId: number
+
+  @Column()
   todo: string
 
   @Column()

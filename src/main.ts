@@ -17,17 +17,18 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor())
 
   const port = 3086
+  app.listen(port)
 
   // 获取本地 IP 地址
-  const networkInterfaces = os.networkInterfaces()
-  const host =
-    Object.values(networkInterfaces)
-      .flat()
-      .find((iface) => iface.family === 'IPv4' && !iface.internal)?.address ||
-    '127.0.0.1'
+  // const networkInterfaces = os.networkInterfaces()
+  // const host =
+  //   Object.values(networkInterfaces)
+  //     .flat()
+  //     .find((iface) => iface.family === 'IPv4' && !iface.internal)?.address ||
+  //   '127.0.0.1'
 
-  app.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`)
-  })
+  // app.listen(port, host, () => {
+  //   console.log(`Server is running on http://${host}:${port}`)
+  // })
 }
 bootstrap()
