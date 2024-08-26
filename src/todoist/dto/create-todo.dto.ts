@@ -1,5 +1,5 @@
 export class CreateTodoDto {
   id: number
-  user_id: number
+  userId: number
   todo: string
 }

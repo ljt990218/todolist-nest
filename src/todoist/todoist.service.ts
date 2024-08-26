@@ -21,11 +21,11 @@ export class TodoistService {
     return await this.todoRepository.find()
   }
 
-  async findAllByUserId(user_id: number): Promise<[Todoist[], number]> {
+  async findAllByUserId(userId: number) {
     const [todos, count] = await this.todoRepository.findAndCount({
-      where: { userId: user_id }
+      where: { userId: userId }
     })
-    return [todos, count]
+    return { todos, count }
   }
 
   async findOne(id: number) {

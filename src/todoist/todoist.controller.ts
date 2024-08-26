@@ -26,9 +26,9 @@ export class TodoistController {
   }
 
   // 获取 user_id 的所有任务
-  @Get('user/:user_id')
-  findAllByUserId(@Param('user_id') user_id: number) {
-    return this.todoistService.findAllByUserId(user_id)
+  @Get('user/:userId')
+  findAllByUserId(@Param('userId') userId: number) {
+    return this.todoistService.findAllByUserId(userId)
   }
 
   @Get(':id')
