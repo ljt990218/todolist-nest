@@ -7,13 +7,13 @@ import {
   Param,
   Delete
 } from '@nestjs/common'
-import { TodoistService } from './todoist.service'
+import { TodoListService } from './todolist.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { UpdateTodoDto } from './dto/update-todo.dto'
 
-@Controller('api/todoist')
-export class TodoistController {
-  constructor(private readonly todoistService: TodoistService) {}
+@Controller('api/todolist')
+export class TodoListController {
+  constructor(private readonly todoistService: TodoListService) {}
 
   @Post()
   create(@Body() createTodoDto: CreateTodoDto) {
@@ -25,7 +25,6 @@ export class TodoistController {
     return this.todoistService.findAll()
   }
 
-  // 获取 user_id 的所有任务
   @Get('user/:userId')
   findAllByUserId(@Param('userId') userId: number) {
     return this.todoistService.findAllByUserId(userId)

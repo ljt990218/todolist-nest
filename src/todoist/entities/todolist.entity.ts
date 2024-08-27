@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 
 @Entity()
-export class Todoist {
+export class TodoList {
   @PrimaryGeneratedColumn()
   id: number
 
