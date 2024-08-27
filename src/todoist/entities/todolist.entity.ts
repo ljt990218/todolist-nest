@@ -20,7 +20,7 @@ export class TodoList {
   todo: string
 
   @Column({ default: 0 })
-  state: number
+  state: number = 0
 
   @Column()
   stateText: string
