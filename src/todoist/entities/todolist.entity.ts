@@ -11,16 +11,16 @@ import {
 @Entity()
 export class TodoList {
   @PrimaryGeneratedColumn()
-  id: number
+  readonly id: number
 
   @Column()
-  userId: number
+  readonly userId: number
 
   @Column()
   todo: string
 
-  @Column()
-  state: number = 0
+  @Column({ default: 0 })
+  state: number
 
   @Column()
   stateText: string
