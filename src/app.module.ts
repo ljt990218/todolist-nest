@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config'
 import { DatabaseConfigDev } from '../DatabaseConfigDev'
 import { DatabaseConfigProd } from '../DatabaseConfigProd'
 import { UserModule } from './user/user.module'
-import { TodoistModule } from './todoist/todoist.module'
+import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
 
 const databaseConfig =
@@ -40,8 +40,9 @@ const databaseConfig =
       rootPath: path.join(__dirname, '..', 'src/public')
     }),
     UserModule,
-    TodoistModule,
-    AppController
-  ]
+    TodoistModule
+  ],
+  controllers: [AppController],
+  providers: []
 })
 export class AppModule {}

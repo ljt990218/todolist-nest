@@ -1,22 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id: number
 
   @Column()
-  name: string;
+  name: string
 
   @Column()
-  age: number;
+  age: number
 
   @Column()
-  phone: string;
+  phone: string
 
   @CreateDateColumn({ type: 'timestamp' })
-  createDate: Date;
+  createDate: Date
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updateDate: Date;
+  updateDate: Date
 }

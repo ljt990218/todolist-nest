@@ -9,17 +9,17 @@ import {
 } from 'typeorm'
 
 @Entity()
-export class Todoist {
+export class TodoList {
   @PrimaryGeneratedColumn()
-  id: number
+  readonly id: number
 
   @Column()
-  userId: number
+  readonly userId: number
 
   @Column()
   todo: string
 
-  @Column()
+  @Column({ default: 0 })
   state: number = 0
 
   @Column()
