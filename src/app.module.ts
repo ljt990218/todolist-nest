@@ -8,6 +8,7 @@ import { DatabaseConfigProd } from '../DatabaseConfigProd'
 import { UserModule } from './user/user.module'
 import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
+import { AuthModule } from './auth/auth.module'
 
 const databaseConfig =
   process.env.NODE_ENV === 'production' ? DatabaseConfigProd : DatabaseConfigDev
@@ -40,7 +41,8 @@ const databaseConfig =
       rootPath: path.join(__dirname, '..', 'src/public')
     }),
     UserModule,
-    TodoistModule
+    TodoistModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: []

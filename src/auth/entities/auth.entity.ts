@@ -1,38 +1,17 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeInsert
-} from 'typeorm'
+// src/user/entities/user.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  readonly id: number
-
-  @Column()
-  name: string
-
-  @Column()
-  age: number
-
-  @Column()
-  phone: string
+  id: number
 
   @Column({ unique: true })
   account: string
 
   @Column()
   password: string
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createDate: Date
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updateDate: Date
 
   @BeforeInsert()
   async hashPassword() {
