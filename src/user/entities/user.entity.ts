@@ -13,19 +13,19 @@ export class User {
   @PrimaryGeneratedColumn()
   readonly id: number
 
-  @Column()
+  @Column({ default: '' })
   name: string
 
-  @Column()
+  @Column({ default: 18 })
   age: number
 
-  @Column()
+  @Column({ default: '' })
   phone: string
 
   @Column({ unique: true })
   account: string
 
-  @Column()
+  @Column({ unique: true })
   password: string
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -41,5 +41,10 @@ export class User {
 
   async comparePassword(attempt: string): Promise<boolean> {
     return await bcrypt.compare(attempt, this.password)
+  }
+
+  @BeforeInsert()
+  setName() {
+    this.name = `user_${this.account}`
   }
 }

@@ -20,35 +20,44 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id }
+    const userInfo = await this.userService.findByAccount(user.account)
+
+    if (!userInfo) {
+      throw new UnauthorizedException('The user does not exist.')
+    }
+    const isMatch = await userInfo.comparePassword(user.password)
+    if (!isMatch) {
+      throw new UnauthorizedException('Password error')
+    }
+
+    const { password, ...userWithoutPassword } = userInfo
+    const payload = { account: user.account, user_id: user.id }
+
+    const access_token = await this.jwtService.signAsync(payload)
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token,
+      user_info: userWithoutPassword
     }
   }
 
-  async register(
-    account: string,
-    password: string,
-    name: string,
-    age: number,
-    phone: string
-  ) {
-    // 检查用户是否已经存在
-    // const existingUser = await this.userService.findByAccount(account)
-    // if (existingUser) {
-    //   throw new UnauthorizedException('User already exists')
-    // }
+  async register(account: string, user_password: string) {
+    const existingUser = await this.userService.findByAccount(account)
+    if (existingUser) {
+      throw new UnauthorizedException('User already exists')
+    }
 
     const user = await this.userService.create({
       account,
-      password,
-      name,
-      age,
-      phone
+      password: user_password
     })
-    const payload = { email: user.account, sub: user.id }
+
+    const { password, ...userWithoutPassword } = user
+    const payload = { account: user.account, user_id: user.id }
+    const access_token = await this.jwtService.signAsync(payload)
+
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token,
+      user_info: userWithoutPassword
     }
   }
 }
