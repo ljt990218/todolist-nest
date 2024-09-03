@@ -5,23 +5,34 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  Request
 } from '@nestjs/common'
 import { TodoListService } from './todolist.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { UpdateTodoDto } from './dto/update-todo.dto'
+import { JwtService } from '@nestjs/jwt'
 
 @Controller('api/todolist')
 export class TodoListController {
-  constructor(private readonly todoistService: TodoListService) {}
+  constructor(
+    private readonly todoistService: TodoListService,
+    private readonly jwtService: JwtService
+  ) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
+  async create(@Body() createTodoDto: CreateTodoDto) {
     return this.todoistService.create(createTodoDto)
   }
 
   @Get()
-  findAll() {
+  async findAll(@Request() req) {
+    const token = req.headers.token
+    const decoded = await this.jwtService.verifyAsync(token, {
+      secret: process.env.JWT_SECRET
+    })
+    console.log(decoded)
+
     return this.todoistService.findAll()
   }
 

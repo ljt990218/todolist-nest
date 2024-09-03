@@ -9,8 +9,9 @@ import { UserModule } from './user/user.module'
 import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
+import { config } from 'dotenv'
 
-require('dotenv').config()
+config()
 
 const databaseConfig =
   process.env.NODE_ENV === 'production' ? DatabaseConfigProd : DatabaseConfigDev

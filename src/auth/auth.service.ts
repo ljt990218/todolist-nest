@@ -31,7 +31,7 @@ export class AuthService {
     }
 
     const { password, ...userWithoutPassword } = userInfo
-    const payload = { account: user.account, user_id: user.id }
+    const payload = { account: userInfo.account, user_id: userInfo.id }
 
     const access_token = await this.jwtService.signAsync(payload)
     return {
@@ -58,6 +58,15 @@ export class AuthService {
     return {
       access_token,
       user_info: userWithoutPassword
+    }
+  }
+
+  async decodeToken(token: string): Promise<any> {
+    try {
+      const decoded = await this.jwtService.verifyAsync(token)
+      return decoded
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token')
     }
   }
 }
