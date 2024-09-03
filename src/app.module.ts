@@ -10,6 +10,8 @@ import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
 
+require('dotenv').config()
+
 const databaseConfig =
   process.env.NODE_ENV === 'production' ? DatabaseConfigProd : DatabaseConfigDev
 
