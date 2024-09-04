@@ -3,8 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
 import { ConfigModule } from '@nestjs/config'
-import { DatabaseConfigDev } from '../DatabaseConfigDev'
-import { DatabaseConfigProd } from '../DatabaseConfigProd'
 import { UserModule } from './user/user.module'
 import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
@@ -12,12 +10,6 @@ import { AuthModule } from './auth/auth.module'
 import { config } from 'dotenv'
 
 config()
-
-const databaseConfig =
-  process.env.NODE_ENV === 'production' ? DatabaseConfigProd : DatabaseConfigDev
-
-// console.log('NODE_ENV', process.env.NODE_ENV)
-// console.log(databaseConfig)
 
 @Module({
   imports: [
@@ -29,16 +21,16 @@ const databaseConfig =
       ]
     }),
     TypeOrmModule.forRoot({
-      type: databaseConfig.type as any,
-      host: databaseConfig.host,
-      port: databaseConfig.port,
-      username: databaseConfig.username,
-      password: databaseConfig.password,
-      database: databaseConfig.database,
-      retryDelay: databaseConfig.retryDelay,
-      retryAttempts: databaseConfig.retryAttempts,
-      autoLoadEntities: databaseConfig.autoLoadEntities,
-      synchronize: databaseConfig.synchronize
+      type: process.env.DB_TYPE as any,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT, 10),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      retryDelay: parseInt(process.env.DB_RETRYDELAY, 10),
+      retryAttempts: parseInt(process.env.DB_RETRYATTEMPTS, 10),
+      autoLoadEntities: process.env.DB_AUTOLOADENTITIES === 'true',
+      synchronize: process.env.DB_SYNCHRONIZE === 'true'
     }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'src/public')
