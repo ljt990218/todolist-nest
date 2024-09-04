@@ -18,4 +18,9 @@ export class AuthController {
     const { account, password } = body
     return this.authService.register(account, password)
   }
+
+  @Post('logout')
+  async logout() {
+    return this.authService.logout()
+  }
 }

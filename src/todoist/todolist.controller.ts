@@ -6,7 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  Request
+  Request,
+  UnauthorizedException
 } from '@nestjs/common'
 import { TodoListService } from './todolist.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
@@ -28,10 +29,18 @@ export class TodoListController {
   @Get()
   async findAll(@Request() req) {
     const token = req.headers.token
-    const decoded = await this.jwtService.verifyAsync(token, {
-      secret: process.env.JWT_SECRET
-    })
-    console.log(decoded)
+
+    if (!token) {
+      throw new UnauthorizedException('Not logged in.')
+    }
+
+    try {
+      const decoded = await this.jwtService.verifyAsync(token, {
+        secret: process.env.JWT_SECRET
+      })
+    } catch (error) {
+      return { statusCode: 403, message: 'Forbidden' }
+    }
 
     return this.todoistService.findAll()
   }

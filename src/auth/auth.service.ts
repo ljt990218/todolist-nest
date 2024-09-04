@@ -61,6 +61,10 @@ export class AuthService {
     }
   }
 
+  async logout() {
+    return { message: 'Logged out successfully' }
+  }
+
   async decodeToken(token: string): Promise<any> {
     try {
       const decoded = await this.jwtService.verifyAsync(token)
