@@ -14,11 +14,7 @@ config()
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: [
-        path.resolve(__dirname, `../.env.${process.env.NODE_ENV}`),
-        path.resolve(__dirname, '../.env.development')
-      ]
+      isGlobal: true
     }),
     TypeOrmModule.forRoot({
       type: process.env.DB_TYPE as any,
