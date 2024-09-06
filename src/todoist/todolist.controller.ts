@@ -31,7 +31,7 @@ export class TodoListController {
     const token = req.headers.token
 
     if (!token) {
-      throw new UnauthorizedException('Not logged in.')
+      throw new UnauthorizedException('Not logged in')
     }
 
     try {
@@ -39,7 +39,7 @@ export class TodoListController {
         secret: process.env.JWT_SECRET
       })
     } catch (error) {
-      return { statusCode: 403, message: 'Forbidden' }
+      throw new UnauthorizedException('Forbidden')
     }
 
     return this.todoistService.findAll()
