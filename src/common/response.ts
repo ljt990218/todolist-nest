@@ -9,7 +9,7 @@ export class ResponseInterceptor implements NestInterceptor {
       map((data) => {
         return {
           code: data.code || 200,
-          data: data.data || {},
+          data: data.data || data,
           message: data.message || 'success'
         }
       })

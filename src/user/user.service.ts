@@ -33,9 +33,9 @@ export class UserService {
   }
 
   async update(id: number, updateTodoDto: UpdateUserDto) {
-    const todo = await this.findOne(id)
-    Object.assign(todo, updateTodoDto)
-    return await this.userRepository.save(todo)
+    const user = await this.findOne(id)
+    Object.assign(user, updateTodoDto)
+    return await this.userRepository.save(user)
   }
 
   remove(id: number) {

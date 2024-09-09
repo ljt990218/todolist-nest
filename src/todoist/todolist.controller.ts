@@ -6,20 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  Request,
-  UnauthorizedException
+  Request
 } from '@nestjs/common'
 import { TodoListService } from './todolist.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { UpdateTodoDto } from './dto/update-todo.dto'
-import { JwtService } from '@nestjs/jwt'
 
 @Controller('api/todolist')
 export class TodoListController {
-  constructor(
-    private readonly todoistService: TodoListService,
-    private readonly jwtService: JwtService
-  ) {}
+  constructor(private readonly todoistService: TodoListService) {}
 
   @Post()
   async create(@Body() createTodoDto: CreateTodoDto) {
@@ -28,21 +23,8 @@ export class TodoListController {
 
   @Get()
   async findAll(@Request() req) {
-    const token = req.headers.token
-
-    if (!token) {
-      return { code: 401, data: {}, message: 'Not logged in' }
-    }
-
-    try {
-      const decoded = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET
-      })
-    } catch (error) {
-      throw new UnauthorizedException('Forbidden')
-    }
-
-    return this.todoistService.findAll()
+    const user = req.user
+    return this.todoistService.findAll(user.user_id)
   }
 
   @Get('user/:userId')

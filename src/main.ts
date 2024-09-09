@@ -4,8 +4,10 @@ import { AppModule } from './app.module'
 import { VersioningType } from '@nestjs/common'
 import { HttpExceptionFilter } from './common/filter'
 import { ResponseInterceptor } from './common/response'
+import { RequestInterceptor } from './common/request'
+import { JwtService } from '@nestjs/jwt' // 确保导入 JwtService
 import * as cors from 'cors'
-import * as os from 'os'
+// import * as os from 'os'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -15,6 +17,7 @@ async function bootstrap() {
   app.use(cors())
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new ResponseInterceptor())
+  app.useGlobalInterceptors(new RequestInterceptor(app.get(JwtService)))
 
   const port = 3086
   app.listen(port)

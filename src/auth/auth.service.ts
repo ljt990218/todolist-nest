@@ -35,8 +35,10 @@ export class AuthService {
 
     const access_token = await this.jwtService.signAsync(payload)
     return {
-      access_token,
-      user_info: userWithoutPassword
+      data: {
+        access_token,
+        user_info: userWithoutPassword
+      }
     }
   }
 
@@ -56,13 +58,19 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(payload)
 
     return {
-      access_token,
-      user_info: userWithoutPassword
+      data: {
+        access_token,
+        user_info: userWithoutPassword
+      }
     }
   }
 
   async logout() {
-    return { message: 'Logged out successfully' }
+    return {
+      data: {
+        message: 'Logged out successfully'
+      }
+    }
   }
 
   async decodeToken(token: string): Promise<any> {

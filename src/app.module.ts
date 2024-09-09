@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
 import { ConfigModule } from '@nestjs/config'
+import { JwtModule } from '@nestjs/jwt'
 import { UserModule } from './user/user.module'
 import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
@@ -35,11 +36,14 @@ config()
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'src/public')
     }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '24h' }
+    }),
     UserModule,
     TodoistModule,
     AuthModule
   ],
-  controllers: [AppController],
-  providers: []
+  controllers: [AppController]
 })
 export class AppModule {}

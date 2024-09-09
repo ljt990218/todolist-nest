@@ -17,15 +17,24 @@ export class TodoListService {
     return await this.todoRepository.save(newTodo)
   }
 
-  async findAll() {
-    return await this.todoRepository.find()
+  async findAll(userId: number) {
+    const [todos, count] = await this.todoRepository.findAndCount({
+      where: { userId: userId }
+    })
+    return {
+      todos,
+      count
+    }
   }
 
   async findAllByUserId(userId: number) {
     const [todos, count] = await this.todoRepository.findAndCount({
       where: { userId: userId }
     })
-    return { todos, count }
+    return {
+      todos,
+      count
+    }
   }
 
   async findOne(id: number) {
