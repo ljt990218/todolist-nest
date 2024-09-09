@@ -31,7 +31,7 @@ export class TodoListController {
     const token = req.headers.token
 
     if (!token) {
-      throw new UnauthorizedException('Not logged in')
+      return { code: 401, data: {}, message: 'Not logged in' }
     }
 
     try {
