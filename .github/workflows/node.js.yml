@@ -16,9 +16,6 @@ jobs:
     env:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
-    - name: Use output
-        run: echo "Output value is ${{ env.output_value }}"
-        
     strategy:
       matrix:
         node-version: [20.12.2]
