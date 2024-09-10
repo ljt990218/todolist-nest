@@ -1,0 +1,58 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      DB_TYPE: ${{ secrets.DB_TYPE }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_RETRYDELAY: ${{ secrets.DB_RETRYDELAY }}
+      DB_RETRYATTEMPTS: ${{ secrets.DB_RETRYATTEMPTS }}
+      DB_AUTOLOADENTITIES: ${{ secrets.DB_AUTOLOADENTITIES }}
+      DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
+
+    strategy:
+      matrix:
+        node-version: [20.12.2]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check environment variables
+        run: |
+          echo "JWT_SECRET is set: ${{ secrets.JWT_SECRET != '' }}"
+          echo "DB_TYPE is set: ${{ secrets.DB_TYPE != '' }}"
+          echo "DB_HOST is set: ${{ secrets.DB_HOST != '' }}"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - run: pnpm install
+      - run: pnpm run build:prod
+
+      - name: Deploy to Vercel
+        run: npx vercel --token ${VERCEL_TOKEN} --prod
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
