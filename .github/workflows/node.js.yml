@@ -30,7 +30,7 @@ jobs:
         run: npm install -g pnpm
 
       - run: pnpm install
-      - run: pnpm run build:prod --if-present
+      - run: pnpm run build:prod
 
       - name: Deploy to Vercel
         run: npx vercel --token ${VERCEL_TOKEN} --prod
