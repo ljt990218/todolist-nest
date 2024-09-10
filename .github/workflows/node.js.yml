@@ -33,6 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check environment variables
+        run: |
+          echo "JWT_SECRET is set: ${{ secrets.JWT_SECRET != '' }}"
+          echo "DB_TYPE is set: ${{ secrets.DB_TYPE != '' }}"
+          echo "DB_HOST is set: ${{ secrets.DB_HOST != '' }}"
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
