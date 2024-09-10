@@ -15,6 +15,16 @@ jobs:
 
     env:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      DB_TYPE: ${{ secrets.DB_TYPE }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_RETRYDELAY: ${{ secrets.DB_RETRYDELAY }}
+      DB_RETRYATTEMPTS: ${{ secrets.DB_RETRYATTEMPTS }}
+      DB_AUTOLOADENTITIES: ${{ secrets.DB_AUTOLOADENTITIES }}
+      DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
 
     strategy:
       matrix:
@@ -37,16 +47,6 @@ jobs:
       - name: Deploy to Vercel
         run: npx vercel --token ${VERCEL_TOKEN} --prod
         env:
-          DB_TYPE: ${{ secrets.DB_TYPE }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_RETRYDELAY: ${{ secrets.DB_RETRYDELAY }}
-          DB_RETRYATTEMPTS: ${{ secrets.DB_RETRYATTEMPTS }}
-          DB_AUTOLOADENTITIES: ${{ secrets.DB_AUTOLOADENTITIES }}
-          DB_SYNCHRONIZE: ${{ secrets.DB_SYNCHRONIZE }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
