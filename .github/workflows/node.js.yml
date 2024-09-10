@@ -20,20 +20,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Check pnpm version
-        run: pnpm --version
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - run: pnpm install
       - run: pnpm run build:prod --if-present
+
       - name: Deploy to Vercel
         run: npx vercel --token ${VERCEL_TOKEN} --prod
         env:
