@@ -27,8 +27,10 @@ export class RequestInterceptor implements NestInterceptor {
       return next.handle()
     }
 
+    // 401: 无token 403: 无效token
+
     if (!token) {
-      response.status(401).json({
+      response.status(200).json({
         code: 401,
         message: 'Token is missing'
       })
@@ -41,8 +43,8 @@ export class RequestInterceptor implements NestInterceptor {
       })
       request.user = decoded
     } catch (error) {
-      response.status(401).json({
-        code: 401,
+      response.status(200).json({
+        code: 403,
         message: 'Invalid token'
       })
       return throwError(() => new Error('Invalid token'))

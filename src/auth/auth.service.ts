@@ -19,15 +19,17 @@ export class AuthService {
     return null
   }
 
+  // 411: 已注册 412: 未注册 413: 密码错误
+
   async login(user: any) {
     const userInfo = await this.userService.findByAccount(user.account)
 
     if (!userInfo) {
-      throw new UnauthorizedException('The user does not exist.')
+      return { code: 412, data: {}, message: 'The user does not exist' }
     }
     const isMatch = await userInfo.comparePassword(user.password)
     if (!isMatch) {
-      throw new UnauthorizedException('Password error')
+      return { code: 413, data: {}, message: 'Password error' }
     }
 
     const { password, ...userWithoutPassword } = userInfo
@@ -35,17 +37,15 @@ export class AuthService {
 
     const access_token = await this.jwtService.signAsync(payload)
     return {
-      data: {
-        access_token,
-        user_info: userWithoutPassword
-      }
+      access_token,
+      user_info: userWithoutPassword
     }
   }
 
   async register(account: string, user_password: string) {
     const existingUser = await this.userService.findByAccount(account)
     if (existingUser) {
-      throw new UnauthorizedException('User already exists')
+      return { code: 411, data: {}, message: 'User already exists' }
     }
 
     const user = await this.userService.create({
@@ -58,19 +58,13 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(payload)
 
     return {
-      data: {
-        access_token,
-        user_info: userWithoutPassword
-      }
+      access_token,
+      user_info: userWithoutPassword
     }
   }
 
   async logout() {
-    return {
-      data: {
-        message: 'Logged out successfully'
-      }
-    }
+    return { message: 'Logged out successfully' }
   }
 
   async decodeToken(token: string): Promise<any> {

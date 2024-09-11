@@ -17,14 +17,13 @@ export class TodoListController {
   constructor(private readonly todoistService: TodoListService) {}
 
   @Post()
-  async create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoistService.create(createTodoDto)
+  async create(@Body() createTodoDto: CreateTodoDto, @Request() req) {
+    return this.todoistService.create(req.user.user_id, createTodoDto)
   }
 
   @Get()
   async findAll(@Request() req) {
-    const user = req.user
-    return this.todoistService.findAll(user.user_id)
+    return this.todoistService.findAll(req.user.user_id)
   }
 
   @Get('user/:userId')

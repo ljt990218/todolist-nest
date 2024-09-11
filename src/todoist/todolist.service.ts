@@ -12,8 +12,11 @@ export class TodoListService {
     private readonly todoRepository: Repository<TodoList>
   ) {}
 
-  async create(createTodoDto: CreateTodoDto) {
-    const newTodo = this.todoRepository.create(createTodoDto)
+  async create(userId: number, createTodoDto: CreateTodoDto) {
+    const newTodo = this.todoRepository.create({
+      ...createTodoDto,
+      userId
+    })
     return await this.todoRepository.save(newTodo)
   }
 
