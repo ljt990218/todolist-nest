@@ -20,13 +20,22 @@ export class TodoListService {
     return await this.todoRepository.save(newTodo)
   }
 
-  async findAll(userId: number) {
-    const [todos, count] = await this.todoRepository.findAndCount({
-      where: { userId: userId }
+  async findAll(userId: number, page: number = 1, pageSize: number = 10) {
+    const skip = (page - 1) * pageSize
+    const [todos, total] = await this.todoRepository.findAndCount({
+      where: { userId: userId },
+      skip: skip,
+      take: pageSize
     })
+
     return {
       todos,
-      count
+      meta: {
+        total,
+        page: Number(page),
+        pageSize: Number(pageSize),
+        totalPages: Math.ceil(total / pageSize)
+      }
     }
   }
 

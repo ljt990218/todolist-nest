@@ -6,7 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  Request
+  Request,
+  Query
 } from '@nestjs/common'
 import { TodoListService } from './todolist.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
@@ -22,8 +23,12 @@ export class TodoListController {
   }
 
   @Get()
-  async findAll(@Request() req) {
-    return this.todoistService.findAll(req.user.user_id)
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10,
+    @Request() req
+  ) {
+    return this.todoistService.findAll(req.user.user_id, page, pageSize)
   }
 
   @Get('user/:userId')
