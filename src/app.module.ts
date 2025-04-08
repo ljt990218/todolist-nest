@@ -9,6 +9,7 @@ import { TodoistModule } from './todoist/todolist.module'
 import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
 import { config } from 'dotenv'
+import { UvModule } from './uv/uv.module'
 
 config()
 
@@ -42,7 +43,8 @@ config()
     }),
     UserModule,
     TodoistModule,
-    AuthModule
+    AuthModule,
+    UvModule
   ],
   controllers: [AppController]
 })
