@@ -7,7 +7,7 @@ import { ResponseInterceptor } from './common/response'
 import { RequestInterceptor } from './common/request'
 import { JwtService } from '@nestjs/jwt' // 确保导入 JwtService
 import * as cors from 'cors'
-// import * as os from 'os'
+import * as os from 'os'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -20,18 +20,18 @@ async function bootstrap() {
   app.useGlobalInterceptors(new RequestInterceptor(app.get(JwtService)))
 
   const port = 3086
-  app.listen(port)
+  // app.listen(port)
 
   // 获取本地 IP 地址
-  // const networkInterfaces = os.networkInterfaces()
-  // const host =
-  //   Object.values(networkInterfaces)
-  //     .flat()
-  //     .find((iface) => iface.family === 'IPv4' && !iface.internal)?.address ||
-  //   '127.0.0.1'
+  const networkInterfaces = os.networkInterfaces()
+  const host =
+    Object.values(networkInterfaces)
+      .flat()
+      .find((iface) => iface.family === 'IPv4' && !iface.internal)?.address ||
+    '127.0.0.1'
 
-  // app.listen(port, host, () => {
-  //   console.log(`Server is running on http://${host}:${port}`)
-  // })
+  app.listen(port, host, () => {
+    console.log(`Server is running on http://${host}:${port}`)
+  })
 }
 bootstrap()
